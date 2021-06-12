@@ -6,10 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import webapp.model.User;
 import webapp.service.UserService;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
 @RequestMapping("/users")
+@Transactional
 public class UserController {
 
     UserService userService;
@@ -53,7 +55,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") long id) {
-        userService.deleteUser(id);
+        userService.deleteUser(userService.getUser(id));
         return "redirect:/users";
     }
 }
